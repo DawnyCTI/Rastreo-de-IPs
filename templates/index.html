@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreo de IPs</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px; /* Asegúrate de que el mapa tiene una altura */
+            width: 100%;   /* Asegúrate de que el mapa tiene el ancho completo del contenedor */
+        }
+    </style>
+</head>
+<body class="container">
+    <h1 class="my-4">Registro y Rastreo de IPs</h1>
+
+    <!-- Formulario para guardar IP -->
+    <form action="/guardar" method="POST" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" id="ip" name="ip" placeholder="Introduce una IP" required>
+            <button type="submit" class="btn btn-primary">Guardar IP</button>
+        </div>
+    </form>
+
+    <!-- Tabla de IPs Registradas -->
+    <h2>IPs Registradas</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>IP</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for id, ip in ips %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>{{ ip }}</td>
+                <td>
+                    <a href="/editar/{{ id }}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="/borrar/{{ id }}" class="btn btn-danger btn-sm">Borrar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Formulario para buscar IP -->
+    <form action="/buscar" method="POST" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" id="ip_buscar" name="ip_buscar" placeholder="Introduce la IP" required>
+            <button type="submit" class="btn btn-success">Buscar IP</button>
+        </div>
+    </form>
+
+    {% if datos %}
+    <div class="alert alert-info">
+        <h3>Resultado de la búsqueda:</h3>
+        <ul>
+            <li><strong>IP:</strong> {{ datos['IP'] }}</li>
+            <li><strong>Ciudad:</strong> {{ datos['Ciudad'] }}</li>
+            <li><strong>Región:</strong> {{ datos['Región'] }}</li>
+            <li><strong>País:</strong> {{ datos['País'] }}</li>
+            <li><strong>Ubicación (Latitud, Longitud):</strong> {{ datos['Latitud'] }}, {{ datos['Longitud'] }}</li>
+        </ul>
+        <div id="map"></div>
+    </div>
+    {% else %}
+    <p>No se encontraron datos para la IP proporcionada.</p>
+    {% endif %}
+    
+    
+
+    <!-- Incluir el archivo JavaScript -->
+    <script src="../static/mapa.js"></script>
+</body>
+</html>
