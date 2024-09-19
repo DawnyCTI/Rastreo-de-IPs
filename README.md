@@ -23,7 +23,7 @@ Este proyecto es una aplicación web desarrollada con Flask que permite rastrear
 ### Clonar el Repositorio
 
 ```bash
-git clone https://github.com/tu_usuario/rastreo-de-ips.git
+git clone https://github.com/DawnyCTI/Rastreo-de-IPs
 cd rastreo-de-ips
 
 
